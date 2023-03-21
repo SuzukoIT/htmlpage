@@ -11,32 +11,18 @@
 var ctx=null;
 var gainnode;
 pp=document.getElementById("text");
-
 function start(){
+	pp.innerHTML="stream!!";
 	if(ctx){
 		pp.innerHTML="START";
 		gainnode.gain.value=1.0;
 		return;
 	};
 	ctx=new AudioContext();
-	if(navigator.mediaDevices.getUserMedia){
-		console.log("Could use!");
-		pp.innerHTML="stream!!";
-		navigator.mediaDevices.getUserMedia({audio:true,video:false}).then(play,er);
-	}
-	else{
-		pp.innerHTML="what a ***";
-	};
-	//navigator.getUserMedia=navigator.getUserMedia || navigator.webkitGetUserMedia;
-	//navigator.getUserMedia({audio:true,video:false},play,(er)=>{pp.append(er);});
+	navigator.getUserMedia=navigator.getUserMedia || navigator.webkitGetUserMedia;
+	navigator.getUserMedia({audio:true,video:false},play,(er)=>{pp.append(er);});
 }
-function er(err){
-	pp.innerHTML=err;
-}
-var aa=1;
 function play(stream){
-	pp.innerHTML="START";
-	aa=0;
 	source=ctx.createMediaStreamSource(stream);
 	gainnode=new GainNode(ctx);
 	source.connect(gainnode);
