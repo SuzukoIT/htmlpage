@@ -7,6 +7,7 @@
 		<p id="text"></p>
 		<button onclick="start();">start</button>
 		<button onclick="stop();">stop</button>
+		<button onclick="det();">det</button>
 	<script type="text/javascript">
 var ctx=null;
 var gainnode;
@@ -22,9 +23,10 @@ navigator.mediaDevices.enumerateDevices().then(
 		  if(d.kind=="audioinput"){tt=tt+"in"+d.deviceId};
 		}
 	        )
+	pp.innerHTML=tt;
 	}
 )
-pp.innerHTML=tt;
+
 }
 function start(){
 	pp.innerHTML="steam!!";
