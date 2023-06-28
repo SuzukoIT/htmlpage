@@ -11,6 +11,18 @@
 var ctx=null;
 var gainnode;
 pp=document.getElementById("text");
+tt="device:";
+navigator.mediaDevices.enumerateDevices().then(
+        function(devi){
+		devi.forEach(
+		function (d){
+		  if(d.kind=="audipoutput"){tt=tt+"out"+d.deviceId};
+		  if(d.kind=="audioinput"){tt=tt+"in"+d.deviceId};
+		}
+	        )
+	}
+pp.innerHTML=tt;
+)
 function start(){
 	pp.innerHTML="stream!!";
 	if(ctx){
