@@ -4,40 +4,57 @@
 		<title>aaaaa</title>
 	</head>
 	<body>
-		<p id="text"></p>
+		<button onclick="det();">det</button>
+		<h5>ins</h5>
+		<input type="number" id="inn">
+		<h5>ous</h5>
+		<input type="number" id="oun">
 		<button onclick="start();">start</button>
 		<button onclick="stop();">stop</button>
-		<button onclick="det();">det</button>
+		<p id="text">no signal</p>
 	<script type="text/javascript">
-var ctx=null;
+var ctx;
 var gainnode;
 pp=document.getElementById("text");
-
+var ins=[];
+var ous=[];
 function det(){
-tt="device=";
+tt="<h3>device</h3>";
 navigator.mediaDevices.enumerateDevices().then(
-        function(devi){
+	function(devi){
 		devi.forEach(
-		function (d){
-		  if(d.kind=="audipoutput"){tt=tt+"out"+d.deviceId};
-		  if(d.kind=="audioinput"){tt=tt+"in"+d.deviceId};
+			function(d){
+				if(d.kind=="audiooutput"){ous.push(d);};
+				if(d.kind=="audioinput"){ins.push(d);};
+			}
+		)
+		tt=tt+"input==<br>";
+		for(i=0;i<ins.length;i++){
+			tt=tt+ins[i].deviceId+"<br>";
 		}
-	        )
-	pp.innerHTML=tt;
+		tt=tt+"outputs==<br>";
+		for(i=0;i<ous.length;i++){
+			tt=tt+ous[i].deviceId+"<br>";
+		}
+		pp.innerHTML=tt;
 	}
 )
-
 }
 function start(){
-	pp.innerHTML="steam!!";
+	pp.innerHTML="stream!!";
 	if(ctx){
 		pp.innerHTML="START";
 		gainnode.gain.value=1.0;
 		return;
 	};
-	ctx=new AudioContext();
+	oun=document.getElementById("oun").value;
+	if(oun!=""){ctx=new AudioContext({ sinkId:ous[oun].deviceId});}
+	else{ctx=new AudioContext();};
 	navigator.getUserMedia=navigator.getUserMedia || navigator.webkitGetUserMedia;
-	navigator.getUserMedia({audio:true,video:false},play,(er)=>{pp.append(er);});
+	inn=document.getElementById("inn").value;
+	if(inn==""){con={audio:true};}
+	else{con={audio:{deviceId:ins[i].deviceId}}};
+	navigator.getUserMedia(con,play,(er)=>{pp.append(er);});
 }
 function play(stream){
 	source=ctx.createMediaStreamSource(stream);
