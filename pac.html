@@ -1,10 +1,9 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>00000</title>
+		<title>00001</title>
 	</head>
 	<body>
-		<button onclick="det();">det</button>
 		<label for="inn">ins</label>
 		<select id="inn"></select>
 		<label for="oun">ous</label>
@@ -20,34 +19,33 @@ se=document.getElementById("see");
 oun=document.getElementById("oun");
 inn=document.getElementById("inn");
 
-function det(){
-	navigator.mediaDevices.enumerateDevices().then(
-		function(devi){
-			ous=[];
-			ins=[];
-			devi.forEach(
-				function(d){
-					if(d.kind=="audiooutput"){ous.push(d);};
-					if(d.kind=="audioinput"){ins.push(d);};
-				}
-			)
-			inn.innerHTML="<select id=\"inn\"></select>"
-			for(i=0;i<ins.length;i++){
-				op=document.createElement('option');
-				op.text=ins[i].label;
-				op.value=ins[i].deviceId;
-				inn.appendChild(op);
+navigator.mediaDevices.enumerateDevices().then(
+	function(devi){
+		ous=[];
+		ins=[];
+		devi.forEach(
+			function(d){
+				if(d.kind=="audiooutput"){ous.push(d);};
+				if(d.kind=="audioinput"){ins.push(d);};
 			}
-			oun.innerHTML="<select id=\"oun\"></select>"
-			for(i=0;i<ous.length;i++){
-				op=document.createElement('option');
-				op.text=ous[i].label;
-				op.value=ous[i].deviceId;
-				oun.appendChild(op);
-			}
+		)
+		inn.innerHTML="<select id=\"inn\"></select>"
+		for(i=0;i<ins.length;i++){
+			op=document.createElement('option');
+			op.text=ins[i].label;
+			op.value=ins[i].deviceId;
+			inn.appendChild(op);
 		}
-	)
-}
+		oun.innerHTML="<select id=\"oun\"></select>"
+		for(i=0;i<ous.length;i++){
+			op=document.createElement('option');
+			op.text=ous[i].label;
+			op.value=ous[i].deviceId;
+			oun.appendChild(op);
+		}
+	}
+)
+
 function start(){
 	pp.innerHTML="stream!!";
 	if(ctx){
