@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>00001</title>
+		<title>00002</title>
 	</head>
 	<body>
 		<label for="inn">ins</label>
@@ -48,11 +48,11 @@ navigator.mediaDevices.enumerateDevices().then(
 
 function start(){
 	pp.innerHTML="stream!!";
-	if(ctx){
+	/*if(ctx){
 		pp.innerHTML="START";
 		gainnode.gain.value=1.0;
 		return;
-	};
+	};*/
 	if(oun.value!=""){ctx=new AudioContext({ sinkId:oun.value});}
 	else{ctx=new AudioContext();};
 	navigator.getUserMedia=navigator.getUserMedia || navigator.webkitGetUserMedia;
