@@ -30,11 +30,11 @@ navigator.mediaDevices.enumerateDevices().then(
 		)
 		tt=tt+"input==<br>";
 		for(i=0;i<ins.length;i++){
-			tt=tt+ins[i].deviceId+"<br>";
+			tt=tt+ins[i].label+"<br>";
 		}
 		tt=tt+"outputs==<br>";
 		for(i=0;i<ous.length;i++){
-			tt=tt+ous[i].deviceId+"<br>";
+			tt=tt+ous[i].label+"<br>";
 		}
 		pp.innerHTML=tt;
 	}
