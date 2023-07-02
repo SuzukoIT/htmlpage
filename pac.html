@@ -53,7 +53,7 @@ function start(){
 	navigator.getUserMedia=navigator.getUserMedia || navigator.webkitGetUserMedia;
 	inn=document.getElementById("inn").value;
 	if(inn==""){con={audio:true};}
-	else{con={audio:{deviceId:ins[i].deviceId}}};
+	else{con={audio:{deviceId:ins[inn].deviceId}}};
 	navigator.getUserMedia(con,play,(er)=>{pp.append(er);});
 }
 function play(stream){
