@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>00002</title>
+		<title>00003</title>
 	</head>
 	<body>
 		<label for="inn">ins</label>
@@ -13,7 +13,7 @@
 		<p id="text">no signal</p>
 	<script type="text/javascript">
 var ctx;
-var gainnode;
+var source;
 pp=document.getElementById("text");
 se=document.getElementById("see");
 oun=document.getElementById("oun");
@@ -48,11 +48,12 @@ navigator.mediaDevices.enumerateDevices().then(
 
 function start(){
 	pp.innerHTML="stream!!";
-	/*if(ctx){
-		pp.innerHTML="START";
+	if(ctx){
+		/*pp.innerHTML="START";
 		gainnode.gain.value=1.0;
-		return;
-	};*/
+		return;*/
+		
+	};
 	if(oun.value!=""){ctx=new AudioContext({ sinkId:oun.value});}
 	else{ctx=new AudioContext();};
 	navigator.getUserMedia=navigator.getUserMedia || navigator.webkitGetUserMedia;
@@ -67,8 +68,11 @@ function play(stream){
 	gainnode.connect(ctx.destination);
 }
 function stop(){
+	if(ctx){
 	pp.innerHTML="STOP";
-	gainnode.gain.value=0.0;
+	//gainnode.gain.value=0.0;
+	source.disconnect();
+	};
 }
 </script>
 	</body>
