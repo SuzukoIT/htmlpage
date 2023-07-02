@@ -1,14 +1,14 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>aaaab</title>
+		<title>00000</title>
 	</head>
 	<body>
 		<button onclick="det();">det</button>
-		<h5>ins</h5>
-		<input type="number" id="inn">
-		<h5>ous</h5>
-		<input type="number" id="oun">
+		<label for="inn">ins</label>
+		<select id="inn"></select>
+		<label for="oun">ous</label>
+		<select id="oun"></select>
 		<button onclick="start();">start</button>
 		<button onclick="stop();">stop</button>
 		<p id="text">no signal</p>
@@ -16,29 +16,37 @@
 var ctx;
 var gainnode;
 pp=document.getElementById("text");
-var ins=[];
-var ous=[];
+se=document.getElementById("see");
+oun=document.getElementById("oun");
+inn=document.getElementById("inn");
+
 function det(){
-tt="<h3>device</h3>";
-navigator.mediaDevices.enumerateDevices().then(
-	function(devi){
-		devi.forEach(
-			function(d){
-				if(d.kind=="audiooutput"){ous.push(d);};
-				if(d.kind=="audioinput"){ins.push(d);};
+	navigator.mediaDevices.enumerateDevices().then(
+		function(devi){
+			ous=[];
+			ins=[];
+			devi.forEach(
+				function(d){
+					if(d.kind=="audiooutput"){ous.push(d);};
+					if(d.kind=="audioinput"){ins.push(d);};
+				}
+			)
+			inn.innerHTML="<select id=\"inn\"></select>"
+			for(i=0;i<ins.length;i++){
+				op=document.createElement('option');
+				op.text=ins[i].label;
+				op.value=ins[i].deviceId;
+				inn.appendChild(op);
 			}
-		)
-		tt=tt+"input==<br>";
-		for(i=0;i<ins.length;i++){
-			tt=tt+ins[i].label+"<br>";
+			oun.innerHTML="<select id=\"oun\"></select>"
+			for(i=0;i<ous.length;i++){
+				op=document.createElement('option');
+				op.text=ous[i].label;
+				op.value=ous[i].deviceId;
+				oun.appendChild(op);
+			}
 		}
-		tt=tt+"outputs==<br>";
-		for(i=0;i<ous.length;i++){
-			tt=tt+ous[i].label+"<br>";
-		}
-		pp.innerHTML=tt;
-	}
-)
+	)
 }
 function start(){
 	pp.innerHTML="stream!!";
@@ -47,14 +55,12 @@ function start(){
 		gainnode.gain.value=1.0;
 		return;
 	};
-	oun=document.getElementById("oun").value;
-	if(oun!=""){ctx=new AudioContext({ sinkId:ous[oun].deviceId});}
+	if(oun.value!=""){ctx=new AudioContext({ sinkId:oun.value});}
 	else{ctx=new AudioContext();};
 	navigator.getUserMedia=navigator.getUserMedia || navigator.webkitGetUserMedia;
-	inn=document.getElementById("inn").value;
-	if(inn==""){con={audio:true};}
-	else{con={audio:{deviceId:ins[inn].deviceId}}};
-	navigator.getUserMedia(con,play,(er)=>{pp.append(er);});
+	if(inn.value==""){con={audio:true};}
+	else{con={audio:{deviceId:inn.value}}};
+	navigator.getUserMedia(con,play,(er)=>{/*pp.append(er);*/pp.innerHTML="<h2>"+er+"</h2>";});
 }
 function play(stream){
 	source=ctx.createMediaStreamSource(stream);
